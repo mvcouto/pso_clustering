@@ -18,14 +18,20 @@ maxiter = 10*N      # number of iteractions
 
 df = pd.read_csv('/home/mvccouto/Documentos/Mestrado/comp_natural/pso/iris_dataset/iris.data', header=None)
 df[4] = df[4].str.strip()
-max_value = df.ix[:, 0:3].values.max()
-min_value = df.ix[:, 0:3].values.min()
 
 iris_types = df[4].unique()
 cluster_data = []
 for type in iris_types:
     cluster_data.append(df.loc[df[4] == type].ix[:, 0:3])
 
-bbPSO = BareBonesPSO([min_value, max_value], N, nparticles)
+bounds = []
+for i in range(0, k):
+    for j in range(0, d):
+        max_value = cluster_data[i][j].max()
+        min_value = cluster_data[i][j].min()
+        bounds.append([min_value, max_value])
+
+print(bounds)
+bbPSO = BareBonesPSO(bounds, N, nparticles)
 print(bbPSO.optimize(maxiter, fitness))
 
