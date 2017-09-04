@@ -29,6 +29,7 @@ class BareBonesPSO:
                 particle.update_pbest(func)
                 pbest, pbest_error = particle.get_pbest()
                 if self.gbest_error > pbest_error:
+                    print(pbest_error)
                     self.gbest_error = pbest_error
                     self.gbest = pbest
 
