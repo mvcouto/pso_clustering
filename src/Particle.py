@@ -7,11 +7,16 @@ class Particle:
         self.pbest = x0
         self.pbest_error = -1
 
-    def update_position(self, gbest, func):
+    def update_position(self, gbest, bounds):
         mean = (self.pbest+gbest)/2
         std = np.abs(self.pbest-gbest)
 
-        self.position = np.random.normal(mean, std, len(mean))
+        temp_position = np.random.normal(mean, std, len(mean))
+
+        for i in range(0, len(bounds)):
+            temp_position[i] = min(max(temp_position[i], bounds[i][0]), bounds[i][1])
+
+        self.position = temp_position
 
     def update_pbest(self, func):
         error = func(self.position)
